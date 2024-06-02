@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+    mysql:
+        # platform: linux/x86_64
+        container_name: scoreboard-db
+        restart: unless-stopped
+        image: mysql:8.0
+        tty: true
+        environment:
+            MYSQL_DATABASE: ${MYSQL_DB_NAME}
+            MYSQL_USER: ${MYSQL_DB_USER}
+            MYSQL_PASSWORD: ${MYSQL_DB_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_DB_ROOT_PASSWORD}
+        volumes:
+            - ./data/mysql/data:/var/lib/mysql
+            - ./data/mysql/my.cnf:/etc/mysql/my.cnf
+        ports:
+            - '${MYSQL_DB_PORT}:3306'
+        networks:
+            - main-network
+    postgres:
+        container_name: scoreboard-postgres
+        restart: unless-stopped
+        image: postgres:13
+        tty: true
+        environment:
+            DATABASE_HOST: ${POSTGRES_DB_HOST}
+            DATABASE_PORT: ${POSTGRES_DB_PORT}
+            POSTGRES_DB: ${POSTGRES_DB_NAME}
+            POSTGRES_USER: ${POSTGRES_DB_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_DB_PASSWORD}
+        volumes:
+            - ./data/postgres/data:/var/lib/postgresql/data
+            - ./data/postgres/postgresql.conf:/etc/postgresql/postgresql.conf
+        ports:
+            - '${POSTGRES_DB_PORT}:5432'
+        networks:
+            - main-network
+
+    ms-sql:
+        container_name: scoreboard-ms-sql
+        restart: unless-stopped
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        tty: true
+        environment:
+            ACCEPT_EULA: 'Y'
+            SA_PASSWORD: ${MSSQL_DB_PASSWORD}
+            MSSQL_PID: Developer
+        volumes:
+            - ./data/mssql/data:/var/opt/mssql
+        ports:
+            - '${MSSQL_DB_PORT}:1433'
+        networks:
+            - main-network
+    redis:
+        container_name: scoreboard-redis
+        restart: unless-stopped
+        image: redis:6.2
+        tty: true
+        ports:
+            - '${REDIS_PORT}:6379'
+        networks:
+            - main-network
+
+            
+# Networks
+networks:
+    main-network:
+        driver: bridge
+
+# Volumes
+volumes:
+    dbdata:
+        driver: local
