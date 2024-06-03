@@ -1,5 +1,5 @@
-
-
+### Run db locally  
+## copy .env file from .env.example
 
 # postgres db : 
 docker compose up -d --build  postgres 
@@ -13,3 +13,6 @@ docker compose up -d --build  mysql
  # Redis
  docker compose up -d --build redis
 
+
+### test 
+python test_redis.py
