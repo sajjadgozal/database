@@ -3,7 +3,7 @@ version: '3.8'
 services:
     mysql:
         # platform: linux/x86_64
-        container_name: scoreboard-db
+        container_name: mysql
         restart: unless-stopped
         image: mysql:8.0
         tty: true
@@ -19,8 +19,9 @@ services:
             - '${MYSQL_DB_PORT}:3306'
         networks:
             - main-network
+
     postgres:
-        container_name: scoreboard-postgres
+        container_name: postgres
         restart: unless-stopped
         image: postgres:13
         tty: true
@@ -38,23 +39,20 @@ services:
         networks:
             - main-network
 
-    ms-sql:
-        container_name: scoreboard-ms-sql
-        restart: unless-stopped
+    mssql:
         image: mcr.microsoft.com/mssql/server:2019-latest
-        tty: true
+        container_name: mssql_server
         environment:
-            ACCEPT_EULA: 'Y'
-            SA_PASSWORD: ${MSSQL_DB_PASSWORD}
-            MSSQL_PID: Developer
-        volumes:
-            - ./data/mssql/data:/var/opt/mssql
+            - ACCEPT_EULA=Y
+            - SA_PASSWORD=${MSSQL_DB_PASSWORD}
         ports:
-            - '${MSSQL_DB_PORT}:1433'
-        networks:
-            - main-network
+            - "${MSSQL_DB_PORT}:1433"
+        volumes:
+            - dbdata:/var/opt/mssql
+            - ./data/mssql/:/var/opt/mssql/backup
+
     redis:
-        container_name: scoreboard-redis
+        container_name: redis
         restart: unless-stopped
         image: redis:6.2
         tty: true
@@ -63,7 +61,6 @@ services:
         networks:
             - main-network
 
-            
 # Networks
 networks:
     main-network:

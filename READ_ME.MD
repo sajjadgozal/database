@@ -8,7 +8,7 @@ docker compose up -d --build  postgres
 docker compose up -d --build  mysql 
 
 # ms-sql
- docker compose up -d --build ms-sql 
+ docker-compose up -d --build mssql
 
  # Redis
  docker compose up -d --build redis
