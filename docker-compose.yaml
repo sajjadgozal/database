@@ -52,14 +52,18 @@ services:
             - ./data/mssql/:/var/opt/mssql/backup
 
     redis:
+        image: redis:latest
         container_name: redis
         restart: unless-stopped
-        image: redis:6.2
         tty: true
         ports:
             - '${REDIS_PORT}:6379'
+        volumes:
+            - ./redis.conf:/usr/local/etc/redis/redis.conf
+        command: redis-server /usr/local/etc/redis/redis.conf
         networks:
             - main-network
+
 
 # Networks
 networks:
