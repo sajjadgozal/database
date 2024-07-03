@@ -10,9 +10,11 @@ docker compose up -d --build  mysql
 # ms-sql
  docker-compose up -d --build mssql
 
- # Redis
+# Redis
  docker compose up -d --build redis
 
+# Elasticsearch
+ docker compose up -d --build elasticsearch
 
 ### test 
 python test_redis.py

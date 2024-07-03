@@ -64,6 +64,22 @@ services:
         networks:
             - main-network
 
+    elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch:8.6.0
+        container_name: elasticsearch
+        environment:
+            - discovery.type=single-node
+            - ES_JAVA_OPTS=-Xms512m -Xmx512m
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        volumes:
+            - ./data/esdata:/usr/share/elasticsearch/data
+        ports:
+            - "9200:9200"
+        networks:
+            - main-network
 
 # Networks
 networks:
