@@ -13,12 +13,14 @@ docker compose up -d --build  mysql
 # Redis
  docker compose up -d --build redis
 
-# Elasticsearch
- docker compose up -d --build elasticsearch
-
 # Cassandra 
  docker compose up -d --build cassandra
 
+# Elasticsearch
+docker compose up -d --build elasticsearch
+
+# Kibana 
+docker compose up -d --build kibana
 
 ### test 
 python test_redis.py
