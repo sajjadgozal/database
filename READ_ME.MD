@@ -16,5 +16,9 @@ docker compose up -d --build  mysql
 # Elasticsearch
  docker compose up -d --build elasticsearch
 
+# Cassandra 
+ docker compose up -d --build cassandra
+
+
 ### test 
 python test_redis.py
