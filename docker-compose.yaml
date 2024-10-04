@@ -68,7 +68,6 @@ services:
         networks:
             - main-network
 
-
     elasticsearch:
         image: docker.elastic.co/elasticsearch/elasticsearch:8.15.0
         container_name: elasticsearch
