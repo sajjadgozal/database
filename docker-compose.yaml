@@ -23,6 +23,11 @@ services:
         restart: unless-stopped
         image: postgres:13
         tty: true
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_DB_USER} -d ${POSTGRES_DB_NAME}"]
+            interval: 30s
+            timeout: 10s
+            retries: 3
         environment:
             DATABASE_HOST: ${POSTGRES_DB_HOST}
             DATABASE_PORT: ${POSTGRES_DB_PORT}
@@ -32,6 +37,7 @@ services:
         volumes:
             - ./data/postgres/data:/var/lib/postgresql/data
             - ./data/postgres/postgresql.conf:/etc/postgresql/postgresql.conf
+            - ./data/postgres/backups:/var/lib/postgresql/backups
         ports:
             - '${POSTGRES_DB_PORT}:5432'
         networks:
