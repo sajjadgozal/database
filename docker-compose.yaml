@@ -134,6 +134,17 @@ services:
             - ./data/typesense-data:/data
         command: '--data-dir /data --api-key=xyz --enable-cors'
 
+    mongodb:
+        image: mongo:latest
+        container_name: mongodb
+        ports:
+            - "27017:27017"
+        volumes:
+            - ./data/mongodb_data:/data/db
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME} 
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD} 
+
 # Networks
 networks:
     main-network:

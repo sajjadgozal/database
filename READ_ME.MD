@@ -27,5 +27,8 @@ docker compose up -d --build kibana
 # Typesense
 docker compose up -d --build typesense
 
+# MongoDb
+docker compose up -d --build mongodb
+
 ### test 
 python test_redis.py
