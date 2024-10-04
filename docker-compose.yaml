@@ -112,7 +112,19 @@ services:
             - "7000:7000"
         networks:
             - main-network
-    
+        environment:
+            - CASSANDRA_PASSWORD_SEEDER=${CASSANDRA_PASSWORD_SEEDER}  # Seed the password for the 'cassandra' user
+            - CASSANDRA_PASSWORD=${CASSANDRA_PASSWORD}      # Initial password for the 'cassandra' user
+            - CASSANDRA_CLUSTER_NAME=${CASSANDRA_CLUSTER_NAME} 
+            - CASSANDRA_DC=${CASSANDRA_DC} 
+        volumes:
+            - ./data/cassandra_data:/var/lib/cassandra
+        healthcheck:
+            test: ["CMD", "cqlsh", "-e", "SELECT now() FROM system.local"]
+            interval: 30s
+            timeout: 10s
+            retries: 5
+
     typesense:
         image: typesense/typesense:26.0
         restart: on-failure
