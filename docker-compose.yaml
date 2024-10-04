@@ -106,6 +106,15 @@ services:
             - "7000:7000"
         networks:
             - main-network
+    
+    typesense:
+        image: typesense/typesense:26.0
+        restart: on-failure
+        ports:
+            - "8108:8108"
+        volumes:
+            - ./data/typesense-data:/data
+        command: '--data-dir /data --api-key=xyz --enable-cors'
 
 # Networks
 networks:

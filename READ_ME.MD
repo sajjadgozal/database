@@ -17,10 +17,15 @@ docker compose up -d --build  mysql
  docker compose up -d --build cassandra
 
 # Elasticsearch
+mkdir -p ./data/esdata
+sudo chown -R 1000:1000 ./data/esdata
 docker compose up -d --build elasticsearch
 
 # Kibana 
 docker compose up -d --build kibana
+
+# Typesense
+docker compose up -d --build typesense
 
 ### test 
 python test_redis.py
